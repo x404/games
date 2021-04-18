@@ -1,0 +1,35 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --s: 50px;
+
+  --borderColor: #bfbfbf;
+  --cellActiveColor: #f3f331;
+  --cellSuccessColor: green;
+}
+.d-grid {
+  display: grid;
+}
+
+.list {
+  grid-template-columns: repeat(10, var(--s));
+  grid-template-rows: repeat(10, var(--s));
+  border-left: 1px solid var(--borderColor);
+  border-top: 1px solid var(--borderColor);
+}
+
+.cell {
+  background-color: #498fbd;
+  border-bottom: 1px solid var(--borderColor);
+  border-right: 1px solid var(--borderColor);
+}
+
+.cell-active {
+  background-color: var(--cellActiveColor);
+}
+
+.cell-success {
+  background-color: var(--cellSuccessColor);
+}
