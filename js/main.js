@@ -9,11 +9,13 @@
     createObj(i);
     createGrid(i);
   }
+  console.log(arr);
 
   function createObj(id) {
     let obj = {};
     obj._id = id;
     obj.completed = false;
+    obj.error = false;
     arr.push(obj);
   }
 
