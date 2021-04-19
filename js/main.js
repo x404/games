@@ -2,8 +2,9 @@
   let arr = [];
   const fragment = document.createDocumentFragment();
   const list = document.querySelector(".list");
-  const TIMEOUT = 1000;
+  const TIMEOUT = 2500;
 
+  // create object and grid
   for (let i = 1; i <= 100; i++) {
     createObj(i);
     createGrid(i);
@@ -25,6 +26,7 @@
 
   list.appendChild(fragment);
 
+  // blink cells
   setInterval(function () {
     const rnd = randomInteger(1, 100);
     if (document.querySelectorAll(".cell-active").length > 0) {
@@ -37,5 +39,22 @@
   function randomInteger(min, max) {
     let rand = min + Math.random() * (max + 1 - min);
     return Math.floor(rand);
+  }
+
+  //click cell
+  document.querySelector(".list").addEventListener("click", function (e) {
+    const target = e.target;
+    if (target.classList.contains("cell-active")) {
+      const id = target.dataset.id;
+      updateObj(id);
+
+      target.classList.remove("cell-active");
+      target.classList.add("cell-success");
+    }
+  });
+
+  function updateObj(id) {
+    const cell = arr.filter((el) => el._id == id);
+    cell.completed = true;
   }
 })();
