@@ -48,7 +48,7 @@
     const target = e.target;
     if (target.classList.contains("cell-active")) {
       const id = target.dataset.id;
-      updateStatus(id, "success");
+      updateStatusCellInObj(id, "success");
       checkResult();
 
       target.classList.remove("cell-active");
@@ -56,7 +56,7 @@
     }
   });
 
-  function updateStatus(id, key) {
+  function updateStatusCellInObj(id, key) {
     objOfCells[id][key] = true;
   }
 
