@@ -6,9 +6,11 @@
   --s: 50px;
 
   --borderColor: #bfbfbf;
-  --cellActiveColor: #f3f331;
-  --cellSuccessColor: green;
+  --activeColor: #f3f331;
+  --successColor: green;
+  --errorColor: red;
 }
+
 .d-grid {
   display: grid;
 }
@@ -29,10 +31,14 @@
 }
 
 .cell-active {
-  background-color: var(--cellActiveColor);
+  background-color: var(--activeColor);
   cursor: pointer;
 }
 
 .cell-success {
-  background-color: var(--cellSuccessColor);
+  background-color: var(--successColor);
+}
+
+.cell-error {
+  background-color: var(--errorColor);
 }
