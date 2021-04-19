@@ -2,7 +2,9 @@
   let objOfCells = {};
   const fragment = document.createDocumentFragment();
   const list = document.querySelector(".list");
-  const TIMEOUT = 1500;
+  const TIMEOUT = 1000;
+  let countSuccess = 0;
+  let countError = 0;
 
   // create object and grid
   for (let i = 1; i <= 100; i++) {
@@ -29,7 +31,7 @@
   list.appendChild(fragment);
 
   // blink cells
-  setInterval(function () {
+  let timer = setInterval(function () {
     const rndId = randomInteger(1, 100);
     if (document.querySelectorAll(".cell-active").length > 0) {
       document.querySelector(".cell-active").classList.add("cell-error");
@@ -38,7 +40,11 @@
       checkResult();
     }
 
-    document.querySelector(`[data-id="${rndId}"]`).classList.add("cell-active");
+    if (countError < 10 && countSuccess < 10) {
+      document
+        .querySelector(`[data-id="${rndId}"]`)
+        .classList.add("cell-active");
+    }
   }, TIMEOUT);
 
   function randomInteger(min, max) {
@@ -64,13 +70,16 @@
   }
 
   function checkResult() {
-    const countSuccess = Object.entries(objOfCells).filter(
+    countSuccess = Object.entries(objOfCells).filter(
       (el) => el[1].success == true
     ).length;
 
-    const countError = Object.entries(objOfCells).filter(
-      (el) => el[1].error == true
-    ).length;
+    countError = Object.entries(objOfCells).filter((el) => el[1].error == true)
+      .length;
+
+    if (countSuccess == 10 || countError == 10) {
+      clearInterval(timer);
+    }
 
     console.group("Count ================");
     console.log("success = ", countSuccess);
