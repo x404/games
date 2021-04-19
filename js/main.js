@@ -32,9 +32,10 @@
   setInterval(function () {
     const rndId = randomInteger(1, 100);
     if (document.querySelectorAll(".cell-active").length > 0) {
+      document.querySelector(".cell-active").classList.add("cell-error");
       document.querySelector(".cell-active").classList.remove("cell-active");
       updateStatusCellInObj(rndId, "error");
-	  checkResult();
+      checkResult();
     }
 
     document.querySelector(`[data-id="${rndId}"]`).classList.add("cell-active");
