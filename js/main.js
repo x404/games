@@ -30,12 +30,14 @@
 
   // blink cells
   setInterval(function () {
-    const rnd = randomInteger(1, 100);
+    const rndId = randomInteger(1, 100);
     if (document.querySelectorAll(".cell-active").length > 0) {
       document.querySelector(".cell-active").classList.remove("cell-active");
+      updateStatusCellInObj(rndId, "error");
+	  checkResult();
     }
 
-    document.querySelector(`[data-id="${rnd}"]`).classList.add("cell-active");
+    document.querySelector(`[data-id="${rndId}"]`).classList.add("cell-active");
   }, TIMEOUT);
 
   function randomInteger(min, max) {
