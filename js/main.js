@@ -5,6 +5,8 @@
   const TIMEOUT = 1000;
   let countSuccess = 0;
   let countError = 0;
+  const humanCountEl = document.querySelector("#human_count");
+  const computerCountEl = document.querySelector("#computer_count");
 
   // create object and grid
   for (let i = 1; i <= 100; i++) {
@@ -76,6 +78,9 @@
 
     countError = Object.entries(objOfCells).filter((el) => el[1].error == true)
       .length;
+
+    humanCountEl.textContent = countSuccess;
+    computerCountEl.textContent = countError;
 
     if (countSuccess == 10 || countError == 10) {
       clearInterval(timer);
