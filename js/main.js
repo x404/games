@@ -1,25 +1,25 @@
 (function () {
-  let arr = [];
+  let objOfCells = {};
   const fragment = document.createDocumentFragment();
   const list = document.querySelector(".list");
-  const TIMEOUT = 2500;
+  const TIMEOUT = 1500;
 
   // create object and grid
   for (let i = 1; i <= 100; i++) {
     createObj(i);
-    createGrid(i);
+    renderGrid(i);
   }
-  console.log(arr);
 
   function createObj(id) {
     let obj = {};
     obj._id = id;
-    obj.completed = false;
+    obj.success = false;
     obj.error = false;
-    arr.push(obj);
+
+    objOfCells[id] = obj;
   }
 
-  function createGrid(id) {
+  function renderGrid(id) {
     let div = document.createElement("div");
     div.classList.add("cell");
     div.dataset.id = id;
@@ -48,15 +48,30 @@
     const target = e.target;
     if (target.classList.contains("cell-active")) {
       const id = target.dataset.id;
-      updateObj(id);
+      updateStatus(id, "success");
+      checkResult();
 
       target.classList.remove("cell-active");
       target.classList.add("cell-success");
     }
   });
 
-  function updateObj(id) {
-    const cell = arr.filter((el) => el._id == id);
-    cell.completed = true;
+  function updateStatus(id, key) {
+    objOfCells[id][key] = true;
+  }
+
+  function checkResult() {
+    const countSuccess = Object.entries(objOfCells).filter(
+      (el) => el[1].success == true
+    ).length;
+
+    const countError = Object.entries(objOfCells).filter(
+      (el) => el[1].error == true
+    ).length;
+
+    console.group("Count ================");
+    console.log("success = ", countSuccess);
+    console.log("error = ", countError);
+    console.groupEnd();
   }
 })();
