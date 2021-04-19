@@ -18,16 +18,19 @@
   grid-template-rows: repeat(10, var(--s));
   border-left: 1px solid var(--borderColor);
   border-top: 1px solid var(--borderColor);
+  width: 500px;
 }
 
 .cell {
   background-color: #498fbd;
   border-bottom: 1px solid var(--borderColor);
   border-right: 1px solid var(--borderColor);
+  transition: background-color 0.3s;
 }
 
 .cell-active {
   background-color: var(--cellActiveColor);
+  cursor: pointer;
 }
 
 .cell-success {
