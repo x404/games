@@ -54,21 +54,84 @@
 }
 
 button {
-  background-color: #009a00;
-  padding: 10px 20px;
-  color: #fff;
+  background: none;
   border: none;
   cursor: pointer;
+}
+
+.btn-start {
+  background-color: #009a00;
+  border-radius: 3px;
+  padding: 10px 20px;
+  color: #fff;
   font-size: 16px;
   margin-top: 10px;
-  border-radius: 3px;
   transition: box-shadow 0.3s;
 }
 
-button:hover {
+.btn-start:hover {
   box-shadow: 0 0 3px #000;
 }
 
 p {
   margin: 0;
+}
+
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+}
+
+.modal-inner {
+  background-color: #fff;
+  border-radius: 5px;
+  font-size: 18px;
+  width: 100%;
+  text-align: center;
+  padding: 50px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+}
+
+.modal-inner .title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.modal-open .content {
+  filter: blur(5px);
+}
+
+.score {
+  justify-content: center;
+}
+
+.score div {
+  padding: 0 10px;
+}
+
+.score span {
+  font-weight: bold;
+}
+
+.modal .close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 16px;
+  font-weight: bold;
 }
