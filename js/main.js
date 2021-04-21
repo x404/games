@@ -2,8 +2,8 @@
 let objOfCells = {};
 const fragment = document.createDocumentFragment();
 const list = document.querySelector(".list");
-const TIMEOUT = 1200;
-const FINISHCOUNT = 2;
+const TIMEOUT = 1200; //ms
+const FINISHCOUNT = 4;
 const CELLCOUNTS = 5;
 let countSuccess = 0;
 let countError = 0;
@@ -62,8 +62,6 @@ function fn() {
 
     // обновляем объект и устанавливаем предыдующему элементу объекта - error=true
     updateStatusCellInObj(prevId, "error");
-
-    document.querySelector("#ids").textContent += prevId + " ";
   }
 
   const arr = Object.entries(objOfCells).filter(
@@ -71,13 +69,14 @@ function fn() {
   );
   console.log(arr);
 
-  if (arr.length === 0) clearInterval(timer);
+  if (arr.length === 0 || !checkResult()) {
+    clearInterval(timer);
+    return;
+  }
 
   // получаем случайный элемент из вновь сформированного массива
   const rnd = randomInteger(arr.length - 1, " intimer");
   const _id = arr[rnd][1]._id;
-
-  checkResult();
 
   console.log(prevId, _id);
 
@@ -132,6 +131,8 @@ function checkResult() {
     console.log("- STOP GAME -");
     console.log(objOfCells);
     clearInterval(timer);
+    return false;
   }
+  return true;
 }
 //})();
