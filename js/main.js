@@ -32,8 +32,8 @@ list.appendChild(fragment);
   const FINISHCOUNT = 10;
   let countSuccess = 0;
   let countError = 0;
-  const humanCountEl = document.querySelector("#human_count");
-  const computerCountEl = document.querySelector("#computer_count");
+  // const humanCountEl = document.querySelector("#human_count");
+  // const computerCountEl = document.querySelector("#computer_count");
 
   let flag = false;
 
@@ -41,7 +41,7 @@ list.appendChild(fragment);
   let timer;
   let prevId;
 
-  document.querySelector(".start").addEventListener("click", function () {
+  document.querySelector(".btn-start").addEventListener("click", function () {
     // starting position
     const arr = Object.entries(objOfCells);
     const rnd = randomInteger(arr.length - 1, "start");
@@ -118,15 +118,81 @@ list.appendChild(fragment);
     countSuccess = Object.entries(objOfCells).filter((el) => el[1].success == true).length;
     countError = Object.entries(objOfCells).filter((el) => el[1].error == true).length;
 
-    humanCountEl.textContent = countSuccess;
-    computerCountEl.textContent = countError;
+    // humanCountEl.textContent = countSuccess;
+    // computerCountEl.textContent = countError;
 
     if (countSuccess == FINISHCOUNT || countError == FINISHCOUNT) {
       console.log("%c- STOP GAME -", "color: red;font-weight:bold");
       // console.log(objOfCells);
+
+      const newModal = new Modal(countSuccess, countError);
+      newModal.show();
+
       clearInterval(timer);
       return false;
     }
     return true;
   }
 })(objOfCells);
+
+// Modal
+class Modal {
+  constructor(countSuccess, countError) {
+    this.init();
+    this.countSuccess = countSuccess;
+    this.countError = countError;
+  }
+
+  init() {
+    this.isOpened = false;
+  }
+
+  show() {
+    const html = `
+    <div class="modal">
+      <div class="modal-inner">
+        <p class="title">Score:</p>
+        <div class="d-flex score">
+          <div>You: <span id="human_count">${this.countSuccess}</span></div>
+          <div>Computer: <span id="computer_count">${this.countError}</span></div>
+        </div>
+        <button type="button" class="close">x</button>
+      </div>
+    </div>
+    <div class="backdrop"></div>
+    `;
+    document.body.classList.add("modal-open");
+    document.body.insertAdjacentHTML("beforeend", html);
+
+    this.isOpened = true;
+    this.eventsListeners();
+  }
+
+  close() {
+    if (!this.isOpened) {
+      return;
+    }
+    document.body.classList.remove("modal-open");
+    document.querySelector(".backdrop").remove();
+    document.querySelector(".modal").remove();
+    this.isOpened = false;
+  }
+
+  eventsListeners() {
+    document.querySelector(".modal .close").addEventListener(
+      "click",
+      function (e) {
+        this.close();
+      }.bind(this)
+    );
+
+    window.addEventListener(
+      "keydown",
+      function (e) {
+        if (e.key === "Escape") {
+          this.close();
+        }
+      }.bind(this)
+    );
+  }
+}
