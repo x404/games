@@ -11,16 +11,16 @@
   --errorColor: red;
 }
 
-.d-grid {
-  display: grid;
+.d-flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 .list {
-  grid-template-columns: repeat(10, var(--s));
-  grid-template-rows: repeat(10, var(--s));
-  border-left: 1px solid var(--borderColor);
-  border-top: 1px solid var(--borderColor);
-  width: 500px;
+  max-width: 500px;
 }
 
 .cell {
@@ -28,6 +28,16 @@
   border-bottom: 1px solid var(--borderColor);
   border-right: 1px solid var(--borderColor);
   transition: background-color 0.3s;
+  width: var(--s);
+  height: var(--s);
+}
+
+.cell:nth-child(10n + 1) {
+  border-left: 1px solid var(--borderColor);
+}
+
+.cell:nth-child(-n + 10) {
+  border-top: 1px solid var(--borderColor);
 }
 
 .cell-active {
@@ -41,4 +51,24 @@
 
 .cell-error {
   background-color: var(--errorColor);
+}
+
+button {
+  background-color: #009a00;
+  padding: 10px 20px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  border-radius: 3px;
+  transition: box-shadow 0.3s;
+}
+
+button:hover {
+  box-shadow: 0 0 3px #000;
+}
+
+p {
+  margin: 0;
 }
