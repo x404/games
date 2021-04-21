@@ -3,8 +3,8 @@ let objOfCells = {};
 const fragment = document.createDocumentFragment();
 const list = document.querySelector(".list");
 const TIMEOUT = 1200; //ms
-const FINISHCOUNT = 4;
-const CELLCOUNTS = 5;
+const FINISHCOUNT = 10;
+const CELLCOUNTS = 100;
 let countSuccess = 0;
 let countError = 0;
 const humanCountEl = document.querySelector("#human_count");
@@ -36,61 +36,54 @@ function renderGrid(id) {
 
 list.appendChild(fragment);
 
-// blink cells
+// =BLINK CELLS
 let timer;
 let prevId;
 
 document.querySelector(".start").addEventListener("click", function () {
+  // starting position
   const arr = Object.entries(objOfCells);
   const rnd = randomInteger(arr.length - 1, "start");
   const _id = arr[rnd][1]._id;
 
+  // set active cell
   document.querySelector(`[data-id="${_id}"]`).classList.add("cell-active");
 
   // start timer
   prevId = _id;
-  timer = setInterval(fn, TIMEOUT);
+  timer = setInterval(blinkCell, TIMEOUT);
 });
 
 let out = "";
-function fn() {
-  // если ячейчка была активной и на нее не нажали
-  // if (document.querySelectorAll(".cell-active").length > 0) {
+function blinkCell() {
+  //  if cell was active and no pressed it
   if (!flag) {
     document.querySelector(".cell-active").classList.add("cell-error");
     document.querySelector(".cell-active").classList.remove("cell-active");
 
-    // обновляем объект и устанавливаем предыдующему элементу объекта - error=true
     updateStatusCellInObj(prevId, "error");
   }
 
   const arr = Object.entries(objOfCells).filter(
     (el) => el[1].error == false && el[1].success == false
   );
-  console.log(arr);
 
   if (arr.length === 0 || !checkResult()) {
     clearInterval(timer);
     return;
   }
 
-  // получаем случайный элемент из вновь сформированного массива
+  // select random element from array
   const rnd = randomInteger(arr.length - 1, " intimer");
   const _id = arr[rnd][1]._id;
 
-  console.log(prevId, _id);
-
-  if (prevId == _id) {
-    console.error("previd = _id");
-  }
-
   prevId = _id;
   if (countError < FINISHCOUNT && countSuccess < FINISHCOUNT) {
-    console.log("arr[" + rnd + "][1]." + _id + "=", _id);
-    console.log("");
-
-    // делаем активную следующую клетку
+    // set active next cell in html
     document.querySelector(`[data-id="${_id}"]`).classList.add("cell-active");
+
+    // console.log("arr[" + rnd + "][1]." + _id + "=", _id);
+    // console.log("");
   }
   flag = false;
 }
@@ -117,7 +110,7 @@ document.querySelector(".list").addEventListener("click", function (e) {
 
 function updateStatusCellInObj(id, key) {
   objOfCells[id][key] = true;
-  console.log("objOfCells[" + id + "][" + key + "]=", objOfCells[id][key]);
+  // console.log("objOfCells[" + id + "][" + key + "]=", objOfCells[id][key]);
 }
 
 function checkResult() {
@@ -128,8 +121,8 @@ function checkResult() {
   computerCountEl.textContent = countError;
 
   if (countSuccess == FINISHCOUNT || countError == FINISHCOUNT) {
-    console.log("- STOP GAME -");
-    console.log(objOfCells);
+    console.log("%c- STOP GAME -", "color: red;font-weight:bold");
+    // console.log(objOfCells);
     clearInterval(timer);
     return false;
   }
