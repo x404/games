@@ -2,7 +2,8 @@
   let objOfCells = {};
   const fragment = document.createDocumentFragment();
   const list = document.querySelector(".list");
-  const TIMEOUT = 1000;
+  const TIMEOUT = 1500;
+  const FINISHCOUNT = 3;
   let countSuccess = 0;
   let countError = 0;
   const humanCountEl = document.querySelector("#human_count");
@@ -34,22 +35,29 @@
 
   // blink cells
   let timer = setInterval(function () {
-    const rndId = randomInteger(1, 100);
+    const arr = Object.entries(objOfCells).filter(
+      (el) => el[1].error == false && el[1].success == false
+    );
+
+    const rndId = randomInteger(1, arr.length);
+    const _id = arr[rndId - 1][0];
+
     if (document.querySelectorAll(".cell-active").length > 0) {
       document.querySelector(".cell-active").classList.add("cell-error");
       document.querySelector(".cell-active").classList.remove("cell-active");
       updateStatusCellInObj(rndId, "error");
-      checkResult();
     }
 
-    if (countError < 10 && countSuccess < 10) {
-      document
-        .querySelector(`[data-id="${rndId}"]`)
-        .classList.add("cell-active");
+    console.log(objOfCells, arr, _id);
+
+    checkResult();
+    if (countError < FINISHCOUNT && countSuccess < FINISHCOUNT) {
+      document.querySelector(`[data-id="${_id}"]`).classList.add("cell-active");
     }
   }, TIMEOUT);
 
   function randomInteger(min, max) {
+    // console.log(max);
     let rand = min + Math.random() * (max + 1 - min);
     return Math.floor(rand);
   }
@@ -82,13 +90,8 @@
     humanCountEl.textContent = countSuccess;
     computerCountEl.textContent = countError;
 
-    if (countSuccess == 10 || countError == 10) {
+    if (countSuccess == FINISHCOUNT || countError == FINISHCOUNT) {
       clearInterval(timer);
     }
-
-    console.group("Count ================");
-    console.log("success = ", countSuccess);
-    console.log("error = ", countError);
-    console.groupEnd();
   }
 })();
