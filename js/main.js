@@ -28,7 +28,7 @@ list.appendChild(fragment);
 
 (function () {
   const TIMEOUT = 1200; //ms
-  const FINISHCOUNT = 3;
+  const FINISHCOUNT = 10;
   let start = false;
   let countSuccess = 0;
   let countError = 0;
