@@ -48,8 +48,6 @@ list.appendChild(fragment);
     const rnd = randomInteger(arr.length - 1);
     const _id = arr[rnd][1]._id;
 
-    console.log(_id);
-
     document.querySelector(".btn-start").classList.add("d-none");
     // set active cell
     document.querySelector(`[data-id="${_id}"]`).classList.add("cell-active");
