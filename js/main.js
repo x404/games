@@ -44,7 +44,7 @@ list.appendChild(fragment);
   document.querySelector(".btn-start").addEventListener("click", function () {
     // starting position
     const arr = Object.entries(objOfCells);
-    const rnd = randomInteger(arr.length - 1, "start");
+    const rnd = randomInteger(arr.length - 1);
     const _id = arr[rnd][1]._id;
 
     // set active cell
@@ -75,7 +75,7 @@ list.appendChild(fragment);
     }
 
     // select random element from array
-    const rnd = randomInteger(arr.length - 1, " intimer");
+    const rnd = randomInteger(arr.length - 1);
     const _id = arr[rnd][1]._id;
 
     prevId = _id;
@@ -90,7 +90,7 @@ list.appendChild(fragment);
   }
 
   // random number
-  function randomInteger(max, st) {
+  function randomInteger(max) {
     let rand = Math.floor(Math.random() * (max + 1));
     return rand;
   }
