@@ -25,6 +25,7 @@
 
 .list {
   max-width: 500px;
+  margin-top: 15px;
 }
 
 .cell {
@@ -79,6 +80,13 @@ button {
 
 p {
   margin: 0;
+}
+
+.error {
+  color: red;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
 }
 
 .backdrop {
@@ -138,4 +146,9 @@ p {
   top: 10px;
   font-size: 16px;
   font-weight: bold;
+}
+
+.form-control {
+  height: 28px;
+  font-size: 16px;
 }

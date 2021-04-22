@@ -27,35 +27,45 @@ function renderGrid(id) {
 list.appendChild(fragment);
 
 (function () {
-  const TIMEOUT = 1200; //ms
   const FINISHCOUNT = 10;
   let start = false;
   let countSuccess = 0;
   let countError = 0;
-  // const humanCountEl = document.querySelector("#human_count");
-  // const computerCountEl = document.querySelector("#computer_count");
 
   let flag = false;
+  let errorInput = false;
+
+
+  const humanCountEl = document.querySelector("#human_count");
+  const computerCountEl = document.querySelector("#computer_count");
 
   // =BLINK CELLS
   let timer;
   let prevId;
 
   document.querySelector(".btn-start").addEventListener("click", function () {
-    if (start) reset();
-    // starting position
-    const arr = Object.entries(objOfCells);
-    const rnd = randomInteger(arr.length - 1);
-    const _id = arr[rnd][1]._id;
+    const TIMEOUT = +document.querySelector('#timeout').value; //ms
 
-    document.querySelector(".btn-start").classList.add("d-none");
-    // set active cell
-    document.querySelector(`[data-id="${_id}"]`).classList.add("cell-active");
+    if (TIMEOUT > 0 && typeof(TIMEOUT) === "number"){
+      if (start) reset();
+      if (errorInput) document.querySelector('.error').remove();
+      // starting position
+      const arr = Object.entries(objOfCells);
+      const rnd = randomInteger(arr.length - 1);
+      const _id = arr[rnd][1]._id;
 
-    // start timer
-    prevId = _id;
-    timer = setInterval(blinkCell, TIMEOUT);
-    start = true;
+      document.querySelector(".btn-start").classList.add("d-none");
+      // set active cell
+      document.querySelector(`[data-id="${_id}"]`).classList.add("cell-active");
+
+      // start timer
+      prevId = _id;
+      timer = setInterval(blinkCell, TIMEOUT);
+      start = true;
+    } else{
+      errorInput = true;
+      list.insertAdjacentHTML('beforebegin', '<p class="error">Введите число!</p>')
+    }
   });
 
   let out = "";
@@ -121,8 +131,8 @@ list.appendChild(fragment);
     countSuccess = Object.entries(objOfCells).filter((el) => el[1].success == true).length;
     countError = Object.entries(objOfCells).filter((el) => el[1].error == true).length;
 
-    // humanCountEl.textContent = countSuccess;
-    // computerCountEl.textContent = countError;
+    updateCountElements(countSuccess, countError);
+
 
     if (countSuccess == FINISHCOUNT || countError == FINISHCOUNT) {
       console.log("%c- STOP GAME -", "color: red;font-weight:bold");
@@ -135,6 +145,11 @@ list.appendChild(fragment);
       return false;
     }
     return true;
+  }
+
+  function updateCountElements(countSuccess, countError){
+    humanCountEl.textContent = countSuccess;
+    computerCountEl.textContent = countError;
   }
 
   function reset() {
@@ -157,6 +172,8 @@ list.appendChild(fragment);
     prevId = null;
     countSuccess = 0;
     countError = 0;
+    
+    updateCountElements(countSuccess, countError)
   }
 })(objOfCells);
 
@@ -178,8 +195,8 @@ class Modal {
       <div class="modal-inner">
         <p class="title">Score:</p>
         <div class="d-flex score">
-          <div>You: <span id="human_count">${this.countSuccess}</span></div>
-          <div>Computer: <span id="computer_count">${this.countError}</span></div>
+          <div>You: ${this.countSuccess}</div>
+          <div>Computer: ${this.countError}</div>
         </div>
         <button type="button" class="close">x</button>
       </div>
@@ -210,7 +227,7 @@ class Modal {
       function (e) {
         this.close();
       }.bind(this)
-    );
+    )
 
     window.addEventListener(
       "keydown",
@@ -219,6 +236,6 @@ class Modal {
           this.close();
         }
       }.bind(this)
-    );
+    )
   }
 }
