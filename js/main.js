@@ -1,6 +1,7 @@
 // create object and grid
 let objOfCells = {};
 const CELLCOUNTS = 100;
+const TIMEOUT = 1500;
 const fragment = document.createDocumentFragment();
 const list = document.querySelector(".list");
 for (let i = 1; i <= CELLCOUNTS; i++) {
@@ -42,16 +43,16 @@ list.appendChild(fragment);
   let timer;
   let prevId;
 
-  document.querySelector("#timeout").addEventListener("keyup", function () {
+  document.querySelector(".i-delay").addEventListener("keyup", function () {
     if (this.value < 0) {
       this.value = this.value.slice(1);
     }
   });
 
   document.querySelector(".btn-start").addEventListener("click", function () {
-    const TIMEOUT = +document.querySelector("#timeout").value; //ms
+    const DELAY = +document.querySelector(".i-delay").value; //ms
 
-    if (TIMEOUT > 1000 && typeof TIMEOUT === "number") {
+    if (DELAY > 100 && typeof DELAY === "number") {
       if (start) reset();
       if (errorInput) document.querySelector(".error").remove();
       // starting position
@@ -71,7 +72,7 @@ list.appendChild(fragment);
       if (!errorInput) {
         list.insertAdjacentHTML(
           "beforeend",
-          '<p class="error">Введите число! Время должно быть больше 1000 мс!</p>'
+          '<p class="error">Введите число! Время должно быть больше 100 мс!</p>'
         );
       }
       errorInput = true;
