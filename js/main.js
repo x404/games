@@ -2,6 +2,7 @@
 let objOfCells = {};
 const CELLCOUNTS = 100;
 const TIMEOUT = 1500;
+let delay = 0; //ms
 const fragment = document.createDocumentFragment();
 const list = document.querySelector(".list");
 for (let i = 1; i <= CELLCOUNTS; i++) {
@@ -50,9 +51,8 @@ list.appendChild(fragment);
   });
 
   document.querySelector(".btn-start").addEventListener("click", function () {
-    const DELAY = +document.querySelector(".i-delay").value; //ms
-
-    if (DELAY > 100 && typeof DELAY === "number") {
+    delay = +document.querySelector(".i-delay").value;
+    if (delay > 100 && typeof delay === "number") {
       if (start) reset();
       if (errorInput) document.querySelector(".error").remove();
       // starting position
@@ -111,6 +111,10 @@ list.appendChild(fragment);
       // console.log("");
     }
     flag = false;
+
+    if (!timer) {
+      timer = setInterval(blinkCell, TIMEOUT);
+    }
   }
 
   // random number
@@ -126,6 +130,11 @@ list.appendChild(fragment);
       const id = target.dataset.id;
       flag = true;
       updateStatusCellInObj(id, "success");
+
+      console.log("заново");
+      clearInterval(timer);
+      blinkCell();
+
       checkResult();
 
       target.classList.remove("cell-active");
