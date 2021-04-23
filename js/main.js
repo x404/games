@@ -1,8 +1,7 @@
 // create object and grid
 let objOfCells = {};
 const CELLCOUNTS = 100;
-const TIMEOUT = 1500;
-let delay = 0; //ms
+
 const fragment = document.createDocumentFragment();
 const list = document.querySelector(".list");
 for (let i = 1; i <= CELLCOUNTS; i++) {
@@ -33,7 +32,7 @@ list.appendChild(fragment);
   let start = false;
   let countSuccess = 0;
   let countError = 0;
-
+  let timeout = +document.querySelector(".i-delay").value;
   let flag = false;
   let errorInput = false;
 
@@ -41,7 +40,7 @@ list.appendChild(fragment);
   const computerCountEl = document.querySelector("#computer_count");
 
   // =BLINK CELLS
-  let timer;
+  // let timer;
   let prevId;
 
   document.querySelector(".i-delay").addEventListener("keyup", function () {
@@ -51,10 +50,11 @@ list.appendChild(fragment);
   });
 
   document.querySelector(".btn-start").addEventListener("click", function () {
-    delay = +document.querySelector(".i-delay").value;
-    if (delay > 100 && typeof delay === "number") {
+    timeout = +document.querySelector(".i-delay").value;
+    if (timeout > 0 && typeof timeout === "number") {
       if (start) reset();
-      if (errorInput) document.querySelector(".error").remove();
+      if (errorInput && document.querySelectorAll(".error").length > 0)
+        document.querySelector(".error").remove();
       // starting position
       const arr = Object.entries(objOfCells);
       const rnd = randomInteger(arr.length - 1);
@@ -66,14 +66,12 @@ list.appendChild(fragment);
 
       // start timer
       prevId = _id;
-      timer = setInterval(blinkCell, TIMEOUT);
+      timer = setInterval(blinkCell, timeout);
       start = true;
+      errorInput = false;
     } else {
       if (!errorInput) {
-        list.insertAdjacentHTML(
-          "beforeend",
-          '<p class="error">Введите число! Время должно быть больше 100 мс!</p>'
-        );
+        list.insertAdjacentHTML("beforeend", '<p class="error">Введите число больше нуля!</p>');
       }
       errorInput = true;
     }
@@ -111,10 +109,6 @@ list.appendChild(fragment);
       // console.log("");
     }
     flag = false;
-
-    if (!timer) {
-      timer = setInterval(blinkCell, TIMEOUT);
-    }
   }
 
   // random number
@@ -131,11 +125,11 @@ list.appendChild(fragment);
       flag = true;
       updateStatusCellInObj(id, "success");
 
-      console.log("заново");
-      clearInterval(timer);
-      blinkCell();
-
-      checkResult();
+      if (checkResult()) {
+        clearInterval(timer);
+        blinkCell();
+        timer = setInterval(blinkCell, timeout);
+      }
 
       target.classList.remove("cell-active");
       target.classList.add("cell-success");
