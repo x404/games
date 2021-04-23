@@ -10,22 +10,18 @@
   <body>
     <div id="app">
       <div class="content">
-
         <div class="d-flex flex-wrap list"></div>
         <div>
           <label for="timeout">Задержка, мс</label>
-          <input type="number" id="timeout" class="form-control" value="1200" />              
-        </div>    
+          <input type="number" id="timeout" class="form-control" value="1200" min="0" />
+        </div>
         <button type="button" class="btn-start">Начать</button>
       </div>
     </div>
 
-
-
     <p class="title">Score:</p>
     <p>You: <span id="human_count">0</span></p>
     <p>Computer: <span id="computer_count">0</span></p>
-
 
     <script src="js/main.js"></script>
   </body>

@@ -35,7 +35,6 @@ list.appendChild(fragment);
   let flag = false;
   let errorInput = false;
 
-
   const humanCountEl = document.querySelector("#human_count");
   const computerCountEl = document.querySelector("#computer_count");
 
@@ -43,12 +42,18 @@ list.appendChild(fragment);
   let timer;
   let prevId;
 
-  document.querySelector(".btn-start").addEventListener("click", function () {
-    const TIMEOUT = +document.querySelector('#timeout').value; //ms
+  document.querySelector("#timeout").addEventListener("keyup", function () {
+    if (this.value < 0) {
+      this.value = this.value.slice(1);
+    }
+  });
 
-    if (TIMEOUT > 0 && typeof(TIMEOUT) === "number"){
+  document.querySelector(".btn-start").addEventListener("click", function () {
+    const TIMEOUT = +document.querySelector("#timeout").value; //ms
+
+    if (TIMEOUT > 1000 && typeof TIMEOUT === "number") {
       if (start) reset();
-      if (errorInput) document.querySelector('.error').remove();
+      if (errorInput) document.querySelector(".error").remove();
       // starting position
       const arr = Object.entries(objOfCells);
       const rnd = randomInteger(arr.length - 1);
@@ -62,9 +67,14 @@ list.appendChild(fragment);
       prevId = _id;
       timer = setInterval(blinkCell, TIMEOUT);
       start = true;
-    } else{
+    } else {
+      if (!errorInput) {
+        list.insertAdjacentHTML(
+          "beforeend",
+          '<p class="error">Введите число! Время должно быть больше 1000 мс!</p>'
+        );
+      }
       errorInput = true;
-      list.insertAdjacentHTML('beforebegin', '<p class="error">Введите число!</p>')
     }
   });
 
@@ -133,7 +143,6 @@ list.appendChild(fragment);
 
     updateCountElements(countSuccess, countError);
 
-
     if (countSuccess == FINISHCOUNT || countError == FINISHCOUNT) {
       console.log("%c- STOP GAME -", "color: red;font-weight:bold");
       // console.log(objOfCells);
@@ -147,7 +156,7 @@ list.appendChild(fragment);
     return true;
   }
 
-  function updateCountElements(countSuccess, countError){
+  function updateCountElements(countSuccess, countError) {
     humanCountEl.textContent = countSuccess;
     computerCountEl.textContent = countError;
   }
@@ -172,8 +181,8 @@ list.appendChild(fragment);
     prevId = null;
     countSuccess = 0;
     countError = 0;
-    
-    updateCountElements(countSuccess, countError)
+
+    updateCountElements(countSuccess, countError);
   }
 })(objOfCells);
 
@@ -227,7 +236,7 @@ class Modal {
       function (e) {
         this.close();
       }.bind(this)
-    )
+    );
 
     window.addEventListener(
       "keydown",
@@ -236,6 +245,6 @@ class Modal {
           this.close();
         }
       }.bind(this)
-    )
+    );
   }
 }
