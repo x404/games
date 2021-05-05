@@ -77,7 +77,7 @@ list.appendChild(fragment);
     }
   });
 
-  let out = "";
+  // let out = "";
   function blinkCell() {
     //  if cell was active and no pressed it
     if (!flag) {
